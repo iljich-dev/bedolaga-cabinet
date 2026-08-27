@@ -142,7 +142,7 @@ export interface UserDetailResponse {
   promo_offer_discount_source: string | null;
   promo_offer_discount_expires_at: string | null;
   recent_transactions: UserTransactionItem[];
-  remnawave_uuid: string | null;
+  remnawave_id: number | null;
 }
 
 export interface UserPanelInfo {
@@ -271,7 +271,7 @@ export interface UserAvailableTariffsResponse {
 
 // Sync types
 export interface PanelUserInfo {
-  uuid: string | null;
+  id: number;
   short_uuid: string | null;
   username: string | null;
   status: string | null;
@@ -295,7 +295,7 @@ export interface SyncToPanelResponse {
   success: boolean;
   message: string;
   action: string;
-  panel_uuid: string | null;
+  panel_user_id: number | null;
   changes: Record<string, unknown>;
   errors: string[];
 }
@@ -303,7 +303,7 @@ export interface SyncToPanelResponse {
 export interface PanelSyncStatusResponse {
   user_id: number;
   telegram_id: number;
-  remnawave_uuid: string | null;
+  remnawave_id: number | null;
   subscription_id: number | null;
   subscription_tariff_name: string | null;
   last_sync: string | null;
@@ -456,7 +456,8 @@ export const adminUsersApi = {
         | 'traffic'
         | 'last_activity'
         | 'total_spent'
-        | 'purchase_count';
+        | 'purchase_count'
+        | 'subscription_end_date';
     } = {},
   ): Promise<UsersListResponse> => {
     const response = await apiClient.get('/cabinet/admin/users', { params });
@@ -514,6 +515,19 @@ export const adminUsersApi = {
   cancelSbpRecurring: async (userId: number, subId: number): Promise<{ status: string }> => {
     const response = await apiClient.post(
       `/cabinet/admin/users/${userId}/subscriptions/${subId}/cancel-sbp-recurring`,
+    );
+    return response.data;
+  },
+
+  // Delete one of the user's subscriptions (multi-tariff: trials pile up)
+  deleteSubscription: async (
+    userId: number,
+    subId: number,
+    force = false,
+  ): Promise<{ status: string }> => {
+    const response = await apiClient.delete(
+      `/cabinet/admin/users/${userId}/subscriptions/${subId}`,
+      { params: force ? { force: true } : undefined },
     );
     return response.data;
   },
