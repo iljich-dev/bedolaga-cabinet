@@ -1198,7 +1198,7 @@ export default function Subscription() {
               )}
 
               {/* ─── Autopay Toggle ─── */}
-              {!subscription.is_trial && !subscription.is_daily && (
+              {!subscription.is_trial && !subscription.is_daily && subscription.device_limit <=4 && (
                 <div
                   className="flex items-center justify-between rounded-[14px] p-3.5"
                   style={{
