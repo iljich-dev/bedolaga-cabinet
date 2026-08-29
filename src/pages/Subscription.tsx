@@ -1780,7 +1780,8 @@ export default function Subscription() {
       {/* Reissue Subscription — standalone block, not dependent on device_limit */}
       {subscription &&
         (subscription.is_active || subscription.is_limited) &&
-        !subscription.is_trial && (
+        !subscription.is_trial &&
+        subscription.device_limit <=4 (
           <div
             className="relative overflow-hidden rounded-3xl"
             style={{
