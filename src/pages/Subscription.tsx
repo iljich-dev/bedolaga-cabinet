@@ -702,6 +702,9 @@ export default function Subscription() {
         </h1>
       </div>
 
+      {/* Purchase / Renewal CTA */}
+      <PurchaseCTAButton subscription={subscription} isMultiTariff={isMultiTariff} />
+      
       {/* Current Subscription */}
       {subscription ? (
         (() => {
@@ -1671,9 +1674,6 @@ export default function Subscription() {
           )}
         </div>
       )}
-
-      {/* Purchase / Renewal CTA */}
-      <PurchaseCTAButton subscription={subscription} isMultiTariff={isMultiTariff} />
 
       {/* Delete expired subscription */}
       {isMultiTariff &&
