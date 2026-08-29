@@ -1781,7 +1781,7 @@ export default function Subscription() {
       {subscription &&
         (subscription.is_active || subscription.is_limited) &&
         !subscription.is_trial &&
-        subscription.device_limit <=4 (
+        subscription.device_limit <=4 && (
           <div
             className="relative overflow-hidden rounded-3xl"
             style={{
